@@ -1,31 +1,49 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AddressBook {
     private List<Contact> addressBook;
     
     public AddressBook() {
         addressBook = new ArrayList<Contact>();
     }
+    
+    public int getSize() {
+    	return addressBook.size();
+    }
 
     public void addContact(Contact contact) {
         this.addressBook.add(contact);
         System.out.println("Adding contact...");
-        System.out.println(contact.toString());
+        contact.toString();
         System.out.println("Contact successfully added!");
         
     }
 
     public void removeContact(String emailAddress) {
+    	boolean foundEntry = false;
         for(Contact storedContact : this.addressBook) {
-            if(storedContact.getEmailAddress() == emailAddress) {
+            if(storedContact.getEmailAddress().equals(emailAddress)) {
+                System.out.println("The following contact was successfully removed:");
+                storedContact.toString();
                 this.addressBook.remove(storedContact);
-                System.out.println("Contact successfully removed");
-            } else {
-                System.out.println("The entered email address could not be found in your contacts");
-            }
-        }      
+                foundEntry = true;
+                break;
+            }    
+        }
+        
+        if (!foundEntry) {	
+            System.out.println("The entered email address could not be found in your contacts");
+        }
     }
 
     public void findContact(int searchParameter, String queryValue) {
-        String compareValue;
+    	Pattern pattern = Pattern.compile(("[" + queryValue + "]+"), Pattern.CASE_INSENSITIVE);
+    	String compareValue;
+    	int matches = 0;
+        
         for (Contact storedContact : this.addressBook) {
             switch(searchParameter) {
                 case 1:
@@ -40,17 +58,25 @@ public class AddressBook {
                 case 4:
                     compareValue = storedContact.getEmailAddress();
                     break;
+                default:
+                	compareValue = "";
             }
-            if(compareValue == queryValue) {
+            
+            Matcher matcher = pattern.matcher(compareValue);
+            if(matcher.find()) {
                 System.out.println("The following contact matches your search parameters:");
-                System.out.println(storedContact.toString());
+                storedContact.toString();
+                matches++;
             }
+        }
+        if (matches == 0) {
+        	System.out.println("No matches were found in the address book");
         }
     }
 
     public void seeAllContacts() {
         for (Contact storedContact : this.addressBook) {
-            System.out.println(storedContact.toString());
+            storedContact.toString();
         }
     }
 

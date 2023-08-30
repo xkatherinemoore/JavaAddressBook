@@ -42,7 +42,13 @@ public class Contact {
 	//toString()
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", emailAddress=" + emailAddress + "]";
+		System.out.println("**********");
+		System.out.println("First name: " + firstName);
+		System.out.println("Last name: " + lastName);
+		System.out.println("Phone number: " + phoneNumber);
+		System.out.println("Email: " + emailAddress);
+		System.out.println("**********");
+		System.out.println();
+		return "Contact";
 	}
 }
